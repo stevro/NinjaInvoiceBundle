@@ -3,6 +3,7 @@ Symfony 2 Bundle for Ninja Invoice API
 
 #Use the invoice ninja sdk outside of Symfony
 Simply download only the NinjaInvoice.php from Lib folder. It has no dependency on Symfony
+Make sure you have Guzzle library installed as well.
 
 ## 1. Installation:
 Add this to composer.json
