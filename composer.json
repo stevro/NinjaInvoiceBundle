@@ -1,0 +1,32 @@
+{
+    "name": "stev/ninja-invoice-bundle",
+    "description": "Symfony 2 Bundle for Ninja Invoice API",
+    "type": "symfony-bundle",
+    "authors": [{
+            "name": "Stefan Matei",
+            "email": "stev.matei@gmail.com"
+        }],
+    "keywords": [
+        "ninja invoice"
+    ],
+    "license": [
+        "MIT"
+    ],
+    "require": {
+        "php": ">=5.3",
+        "symfony/framework-bundle": "2.*",
+        "symfony/symfony": "2.*",
+        "guzzlehttp/guzzle": "4.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "Stev\\NinjaInvoiceBundle": ""
+        }
+    },
+    "target-dir": "Stev/NinjaInvoiceBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
