@@ -1,1 +1,6 @@
 services:
+    stev.ninja_invoice:
+        class: Stev\NinjaInvoiceBundle\Lib\NinjaInvoice
+        arguments:
+            - %stev_ninja_invoice.apiKey%
+            - %stev_ninja_invoice.baseUri%
