@@ -112,7 +112,7 @@ class NinjaInvoice {
         rtrim($this->baseUri, '/');
         $url = $this->baseUri . '/' . $endpoint;
 
-        $options['form_params'] = $parameters;
+        $options['body'] = json_encode($parameters);
         $options['headers'] = array(
             'X-Ninja-Token' => $this->apiKey,
             'Content-Type' => 'application/json',
