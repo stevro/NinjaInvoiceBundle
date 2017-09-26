@@ -6,8 +6,7 @@
 
 namespace Stev\NinjaInvoiceBundle\Lib;
 
-use GuzzleHttp\Client;
-
+use InvoiceNinja\Models\Client;
 /**
  * Description of NinjaInvoice
  *
@@ -19,13 +18,17 @@ class NinjaInvoice {
 
     protected $baseUri = 'https://app.invoiceninja.com/api/v1';
     protected $apiKey;
-
+    
     public function __construct($apiKey, $baseUri = null) {
         $this->apiKey = $apiKey;
 
         if (null != $baseUri) {
             $this->baseUri = $baseUri;
         }
+        
+        \InvoiceNinja\Config::setToken($this->apiKey);
+        \InvoiceNinja\Config::setUrl($this->baseUri);
+        \InvoiceNinja\Config::setPerPage(15);
     }
 
     /**
@@ -43,7 +46,8 @@ class NinjaInvoice {
      * @return array
      */
     public function getClients(array $parameters = array()) {
-        return $this->callEndpoint('clients', 'GET', $parameters);
+        return $clients = Client::all();
+//        return $this->callEndpoint('clients', 'GET', $parameters);
     }
 
     /**
@@ -106,30 +110,31 @@ class NinjaInvoice {
      * @throws \Exception
      */
     public function callEndpoint($endpoint, $method = 'POST', array $parameters = array()) {
-        $client = new Client();
-
-        //prevent a double slash added when defining a different base URI
-        rtrim($this->baseUri, '/');
-        $url = $this->baseUri . '/' . $endpoint;
-
-        $options['body'] = json_encode($parameters);
-        $options['headers'] = array(
-            'X-Ninja-Token' => $this->apiKey,
-            'Content-Type' => 'application/json',
-        );
-
-        /* @var $response \GuzzleHttp\Message\ResponseInterface */
-        $response = $client->{strtolower($method)}($url, $options);
-
-        $ret = (string) $response->getBody();
-
-        $data = json_decode($ret);
-
-        if (false === $data || null === $data) {
-            throw new \Exception('There has been an error in reading the response from the API. Original response: ' . $ret);
-        }
-
-        return $data;
+        throw new \Exception('deprecated');
+//        $client = new Client();
+//
+//        //prevent a double slash added when defining a different base URI
+//        rtrim($this->baseUri, '/');
+//        $url = $this->baseUri . '/' . $endpoint;
+//
+//        $options['body'] = json_encode($parameters);
+//        $options['headers'] = array(
+//            'X-Ninja-Token' => $this->apiKey,
+//            'Content-Type' => 'application/json',
+//        );
+//
+//        /* @var $response \GuzzleHttp\Message\ResponseInterface */
+//        $response = $client->{strtolower($method)}($url, $options);
+//
+//        $ret = (string) $response->getBody();
+//
+//        $data = json_decode($ret);
+//
+//        if (false === $data || null === $data) {
+//            throw new \Exception('There has been an error in reading the response from the API. Original response: ' . $ret);
+//        }
+//
+//        return $data;
     }
 
 }
