@@ -30,7 +30,7 @@ final class NinjaCurrencies
         ),
         'RON' =>
         array(
-            'id' => 29,
+            'id' => 24,
             'name' => 'Romanian LEU',
             'symbol' => 'RON',
             'precision' => 2,
