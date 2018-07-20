@@ -12,7 +12,7 @@ use GuzzleHttp\Client;
  * Description of NinjaInvoice
  *
  * @author stefan
- * 
+ *
  * https://www.invoiceninja.com/api-documentation/
  */
 class NinjaInvoice
@@ -29,13 +29,14 @@ class NinjaInvoice
             $this->baseUri = $baseUri;
         }
     }
-    
+
     /**
      * Will return the account based on the api token
      * @param array $parameters
      * @return array
      */
-    public function getAccount(array $parameters = array()){
+    public function getAccount(array $parameters = array())
+    {
         $result = $this->callEndpoint('accounts', 'GET', $parameters);
 
         if (isset($result['data'])) {
@@ -44,9 +45,9 @@ class NinjaInvoice
 
         return array();
     }
-    
+
     /**
-     * 
+     *
      * @param array $parameters An array with ninja parameters
      * @return array
      */
@@ -72,10 +73,10 @@ class NinjaInvoice
     }
 
     /**
-     * 
+     *
      * @param array $parameters An array with ninja parameters
      * @return array
-     * 
+     *
      * A client structure
      * "account_key" => "6ylCO7cuY7qUhOriWuiQTaNBigusx2Iq"
       "is_owner" => true
@@ -148,9 +149,9 @@ class NinjaInvoice
     }
 
     /**
-     * 
+     *
      * @param array $parameters An array with ninja parameters
-     * 
+     *
      * Possible parameters:[
      *      client_id => integer,
      *      product_key => string,
@@ -160,8 +161,8 @@ class NinjaInvoice
      *      last_name => string,
      *      email_invoice => boolean
      * ]
-     * 
-     * 
+     *
+     *
      * @return array
      */
     public function createInvoice(array $parameters = array())
@@ -174,8 +175,20 @@ class NinjaInvoice
 
         return array();
     }
-    
-    public function getTaxRates(array $parameters = array()){
+
+    public function convertQuote($quoteId)
+    {
+        $result = $this->callEndpoint("invoices/{$quoteId}?action=convert", 'PUT', array());
+
+        if (isset($result['data'])) {
+            return $result['data'];
+        }
+
+        return array();
+    }
+
+    public function getTaxRates(array $parameters = array())
+    {
         if (!isset($parameters['page'])) {
             $parameters['page'] = 1;
         }
@@ -194,17 +207,17 @@ class NinjaInvoice
 
         return $rates;
     }
-    
+
     /**
-     * 
+     *
      * @param array $parameters An array with ninja parameters
-     * 
+     *
      * Possible parameters:[
      *      name => string,
      *      contact => [ email => string ]
      *      id => integer **If specified and found, it will update the client
      * ]
-     * 
+     *
      * @return array
      */
     public function createClient(array $parameters = array())
@@ -218,13 +231,13 @@ class NinjaInvoice
     }
 
     /**
-     * 
+     *
      * @param array $parameters An array with ninja parameters
-     * 
+     *
      * Possible parameters:[
      *      id => integer
      * ]
-     * 
+     *
      * @return type
      */
     public function emailInvoice(array $parameters = array())
@@ -233,7 +246,7 @@ class NinjaInvoice
     }
 
     /**
-     * 
+     *
      * @param string $endpoint Ninja API endpoint
      * @param string $method POST|GET
      * @param array $parameters
@@ -245,7 +258,7 @@ class NinjaInvoice
     {
         $client = new Client();
 
-        //prevent a double slash added when defining a different base URI
+//prevent a double slash added when defining a different base URI
         rtrim($this->baseUri, '/');
         $url = $this->baseUri . '/' . $endpoint;
 
