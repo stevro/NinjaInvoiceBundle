@@ -65,7 +65,8 @@ class NinjaInvoice
         if (isset($meta['pagination'])) {
             if ((int) $meta['pagination']['current_page'] < (int) $meta['pagination']['total_pages']) {
                 $parameters['page'] = (int) $meta['pagination']['current_page'] + 1;
-                $invoices = array_merge($invoices, $this->callEndpoint('invoices', 'GET', $parameters));
+                
+                $invoices = array_merge($invoices, $this->getInvoices($parameters));
             }
         }
 
