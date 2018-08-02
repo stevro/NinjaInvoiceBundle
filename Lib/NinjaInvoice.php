@@ -65,7 +65,7 @@ class NinjaInvoice
         if (isset($meta['pagination'])) {
             if ((int) $meta['pagination']['current_page'] < (int) $meta['pagination']['total_pages']) {
                 $parameters['page'] = (int) $meta['pagination']['current_page'] + 1;
-                
+
                 $invoices = array_merge($invoices, $this->getInvoices($parameters));
             }
         }
@@ -75,70 +75,70 @@ class NinjaInvoice
 
     /**
      * {
-    "data": {
-        "account_key": "string",
-        "is_owner": true,
-        "user_id": 1,
-        "id": 64,
-        "amount": 5.95,
-        "balance": 5.95,
-        "client_id": 27,
-        "invoice_status_id": 2,
-        "updated_at": 1532098248,
-        "archived_at": null,
-        "invoice_number": "string",
-        "discount": 0,
-        "po_number": "",
-        "invoice_date": "2018-07-20",
-        "due_date": null,
-        "terms": "",
-        "public_notes": "",
-        "is_deleted": false,
-        "invoice_type_id": 1,
-        "is_recurring": false,
-        "frequency_id": 0,
-        "start_date": null,
-        "end_date": null,
-        "last_sent_date": null,
-        "recurring_invoice_id": 0,
-        "tax_name1": "TVA / VAT",
-        "tax_rate1": 19,
-        "tax_name2": "",
-        "tax_rate2": 0,
-        "is_amount_discount": false,
-        "invoice_footer": "",
-        "partial": 0,
-        "has_tasks": false,
-        "auto_bill": false,
-        "custom_value1": 0,
-        "custom_value2": 0,
-        "custom_taxes1": false,
-        "custom_taxes2": false,
-        "has_expenses": false,
-        "quote_invoice_id": 0,
-        "custom_text_value1": null,
-        "custom_text_value2": null,
-        "is_quote": false,
-        "is_public": true,
-        "invoice_items": [
-            {
-                "account_key": "string",
-                "is_owner": true,
-                "id": 64,
-                "product_key": "string",
-                "updated_at": 1532098248,
-                "archived_at": null,
-                "notes": "string",
-                "cost": 5,
-                "qty": 1,
-                "tax_name1": "",
-                "tax_rate1": 0,
-                "tax_name2": "",
-                "tax_rate2": 0
-            }
-        ]
-    }
-}
+      "data": {
+      "account_key": "string",
+      "is_owner": true,
+      "user_id": 1,
+      "id": 64,
+      "amount": 5.95,
+      "balance": 5.95,
+      "client_id": 27,
+      "invoice_status_id": 2,
+      "updated_at": 1532098248,
+      "archived_at": null,
+      "invoice_number": "string",
+      "discount": 0,
+      "po_number": "",
+      "invoice_date": "2018-07-20",
+      "due_date": null,
+      "terms": "",
+      "public_notes": "",
+      "is_deleted": false,
+      "invoice_type_id": 1,
+      "is_recurring": false,
+      "frequency_id": 0,
+      "start_date": null,
+      "end_date": null,
+      "last_sent_date": null,
+      "recurring_invoice_id": 0,
+      "tax_name1": "TVA / VAT",
+      "tax_rate1": 19,
+      "tax_name2": "",
+      "tax_rate2": 0,
+      "is_amount_discount": false,
+      "invoice_footer": "",
+      "partial": 0,
+      "has_tasks": false,
+      "auto_bill": false,
+      "custom_value1": 0,
+      "custom_value2": 0,
+      "custom_taxes1": false,
+      "custom_taxes2": false,
+      "has_expenses": false,
+      "quote_invoice_id": 0,
+      "custom_text_value1": null,
+      "custom_text_value2": null,
+      "is_quote": false,
+      "is_public": true,
+      "invoice_items": [
+      {
+      "account_key": "string",
+      "is_owner": true,
+      "id": 64,
+      "product_key": "string",
+      "updated_at": 1532098248,
+      "archived_at": null,
+      "notes": "string",
+      "cost": 5,
+      "qty": 1,
+      "tax_name1": "",
+      "tax_rate1": 0,
+      "tax_name2": "",
+      "tax_rate2": 0
+      }
+      ]
+      }
+      }
      * @param int $invoiceId
      * @return array
      */
@@ -319,11 +319,21 @@ class NinjaInvoice
      *      id => integer
      * ]
      *
-     * @return type
+     * @return boolean
      */
     public function emailInvoice(array $parameters = array())
     {
-        return $this->callEndpoint('email_invoice', 'POST', $parameters);
+        try {
+            $response = $this->callEndpoint('email_invoice', 'POST', $parameters);
+        } catch (\Exception $e) {
+            return false;
+        }
+
+        if ($response == 'success') {
+            return true;
+        }
+
+        return false;
     }
 
     /**
