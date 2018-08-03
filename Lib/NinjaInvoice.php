@@ -257,6 +257,41 @@ class NinjaInvoice
         return array();
     }
 
+    public function cancelInvoice($invoiceId, array $parameters = array())
+    {
+        if (!isset($parameters['public_notes'])) {
+            $date = new \DateTime();
+            $parameters['public_notes'] = 'INVOICE CANCELLED ' . $date->format('d-m-Y');
+        }
+
+        $parameters['public_id'] = $invoiceId;
+
+        $result = $this->callEndpoint("invoices", 'POST', $parameters);
+
+        if (isset($result['data'])) {
+            return $result['data'];
+        }
+
+        return array();
+    }
+
+    public function deleteQuote($quoteId)
+    {
+        $quote = $this->getInvoice($quoteId);
+
+        if ($quote['is_quote'] !== true) {
+            throw new \Exception('What are you trying to delete is not a quote');
+        }
+
+        $result = $this->callEndpoint("invoices/{$quoteId}?action=delete", 'PUT', array());
+
+        if (isset($result['data'])) {
+            return $result['data'];
+        }
+
+        return array();
+    }
+
     public function convertQuote($quoteId)
     {
         $result = $this->callEndpoint("invoices/{$quoteId}?action=convert", 'PUT', array());
